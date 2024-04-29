@@ -30,17 +30,13 @@ LaberintoSaltarin/
 
 ## Instrucciones de Ejecución
 
-Para ejecutar el proyecto, sigue estos pasos:
-
-1. Asegúrate de tener instalado Python y Pygame. Si necesitas instalar Pygame, puedes hacerlo ejecutando `pip install pygame` en tu terminal.
-
-2. Navega hasta la carpeta `src/` donde se encuentra el archivo `main.py`.
-
-3. Ejecuta el archivo `main.py` usando Python desde tu terminal con el siguiente comando:
+1. Ejecuta el archivo `main.py` usando Python desde tu terminal con el siguiente comando:
 
 ```bash
 python main.py
 ```
+
+<div style="margin-top:300px;"></div>
 
 ## Descripción de los Algoritmos
 
@@ -102,12 +98,10 @@ python main.py
 - **Coordenadas**: Uno de los mayores desafíos fue manejar correctamente las coordenadas (x, y) en todas las operaciones. Ya que Pygame utiliza un sistema de coordenadas diferente al de una matriz, esto causó problemas en la visualización del laberinto.
 - **Solución**: Se aseguro que todas las funciones respetaran un sistema de coordenadas consistente, pasando siempre coordenadas como (y, x) excepto en las operaciones de dibujo.
 
-## Ejemplos de Entradas y Salidas
-Claro, podemos estructurar la sección de "Ejemplos de Entradas y Salidas" de tu documentación para incluir los datos específicos que proporcionaste, explicando claramente cómo se relacionan las entradas con las salidas producidas por tu programa del laberinto saltarín. Aquí te dejo un ejemplo de cómo podrías presentarlo:
+<div style="margin-top:300px;"></div>
 
 ## Ejemplos de Entradas y Salidas
 
-A continuación, se presentan varios ejemplos de entradas de laberintos y sus correspondientes salidas obtenidas al ejecutar los algoritmos de búsqueda en el proyecto Laberinto Saltarín (Del archivo entrada3.txt). Cada entrada consiste en la definición de un laberinto junto con un punto de inicio y un punto de destino. Las salidas muestran el resultado de intentar encontrar un camino desde el inicio hasta el destino utilizando los algoritmos implementados.
 
 ### Ejemplo 1: Laberinto Pequeño
 
