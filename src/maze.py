@@ -4,7 +4,6 @@ import pygame
 
 class Maze:
     def __init__(self, maze_config):
-        # Asegúrate de que las posiciones de inicio y meta se pasen como (y, x)
         self.rows, self.cols, start_y, start_x, end_y, end_x, self.grid = maze_config
         self.start = (start_y, start_x)
         self.goal = (end_y, end_x)
@@ -56,9 +55,11 @@ class Maze:
     def is_valid_move(self, position):
         y, x = position
         if 0 <= x < self.cols and 0 <= y < self.rows:
-            return self.grid[y][x] != 0
+            # Permitir moverse a la celda si es la meta, incluso si su valor es cero.
+            return self.grid[y][x] != 0 or (y, x) == self.goal
         return False
 
+    # Implementa el método `find_neighbors` que recibe una posición `(y, x)` y retorna una lista con las posiciones vecinas válidas a las que se puede mover el agente.
     def find_neighbors(self, position):
         y, x = position
         jump_value = self.get_cell_value((y, x))

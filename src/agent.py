@@ -1,41 +1,85 @@
-# agent.py
-
-from search_methods import dfs, uniform_cost_search
 import pygame
+import heapq
 
 
 class Agent:
-    def __init__(self, start_position, goal_position, cell_size=80):
-        self.position = start_position
-        self.goal = goal_position
+    def __init__(self, maze, cell_size=80):
+        self.maze = maze
+        self.position = maze.start
+        self.goal = maze.goal
         self.path = None
         self.cell_size = cell_size
 
-    def search_path(self, grid, method="dfs"):
+    def dfs(self):
+        stack = [(self.position, [self.position])]
+        visited = set()
+        visited.add(self.position)  # Añadir la posición inicial a visitados
+
+        while stack:
+            current_position, path = stack.pop()
+            if current_position == self.goal:
+                self.path = path
+                return path
+
+            neighbors = self.maze.find_neighbors(current_position)
+            for new_position in neighbors:
+                if new_position not in visited:
+                    visited.add(new_position)
+                    stack.append((new_position, path + [new_position]))
+
+        print("No se encontró solución")
+        return None
+
+    def search_path(self, method="dfs"):
         if method == "dfs":
-            self.path = dfs(grid, self.position, self.goal)
-            print("Goal Position:", self.goal)
+            result = self.dfs()
         elif method == "uniform_cost":
-            self.path = uniform_cost_search(grid, self.position, self.goal)
+            result = self.uniform_cost_search()
         else:
-            raise ValueError(f"Unknown search method: {method}")
-        return self.path
+            raise ValueError(f"Método de búsqueda desconocido: {method}")
+
+        if result:
+            print(f"Meta alcanzada en {len(result) - 1} movimientos")
+            return result
+        else:
+            print("No se encontró solución")
+            return None
+
+    def uniform_cost_search(self):
+        queue = [(0, self.position, [self.position])]
+        visited = set()
+        visited.add(self.position)  # Añadir la posición inicial a visitados
+        while queue:
+            cost, current_position, path = heapq.heappop(queue)
+
+            if current_position == self.goal:
+                self.path = path
+                return path
+
+            neighbors = self.maze.find_neighbors(current_position)
+            for new_position in neighbors:
+                if new_position not in visited:
+                    visited.add(new_position)
+                    new_cost = cost + 1  # Costo uniforme de cada paso
+                    heapq.heappush(
+                        queue, (new_cost, new_position, path + [new_position])
+                    )
+        return None
 
     def move_along_path(self):
         if self.path:
-            # print("Current position:", self.position)
-            # print("Next move:", self.path[0])
-            self.position = self.path.pop(0)
-            # print("Moved to:", self.position)
-            return True
-        else:
-            print("No more moves left or no path")
-        return False
+            next_position = self.path.pop(0)
+            if self.maze.is_valid_move(next_position):
+                self.position = next_position
+                return True
+            else:
+                print("Movimiento inválido")
+                return False
 
     def draw(self, screen):
         screen_position = (
-            self.position[0] * self.cell_size + self.cell_size // 2,
             self.position[1] * self.cell_size + self.cell_size // 2,
+            self.position[0] * self.cell_size + self.cell_size // 2,
         )
         pygame.draw.circle(
             screen, (0, 0, 255), screen_position, self.cell_size // 3, width=3
